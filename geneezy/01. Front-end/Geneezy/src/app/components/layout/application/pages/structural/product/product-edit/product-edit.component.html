@@ -1,0 +1,86 @@
+<div class='grid'>
+  <div class='col-12'>
+    <div class='card'>
+       <form #formProduct="ngForm">
+        <div class='title-manager'>
+           <h4 class='m-3'><i id='icon-pi' class='pi pi-box'></i>Cadastro de produtos</h4>
+        </div>
+        <p-divider>
+           <div class='inline-flex align-items-center'>
+              <b>Estrutural</b>
+           </div>
+        </p-divider>
+        <div class='p-fluid p-formgrid grid'>
+           <div class='field col-12 md:col-5'>
+              <label htmlFor='name'>Nome </label>
+              <input pInputText type='text' name='name' [(ngModel)]='product.name'/>
+           </div>
+           <div class='field col-12 md:col-7'>
+              <label htmlFor='description'>Descrição</label>
+              <input pInputTextarea rows='4' name='description' [(ngModel)]='product.description'/>
+           </div>
+           <div class='field col-12 md:col-3'>
+              <label htmlFor='isActive'>Status</label>
+              <p-dropdown [options]='dropdownItems' name='isActive' [(ngModel)]='product.isActive'></p-dropdown>
+           </div>
+           <div class='field col-12 md:col-3'>
+              <label htmlFor='brand'>Marca</label>
+              <input pInputText name='brand' [(ngModel)]='product.brand' type='text'/>
+           </div>
+           <div class='field col-12 md:col-3'>
+              <label htmlFor='categoryId'>Categoria</label>
+              <p-dropdown [options]='category' [(ngModel)]='product.categoryId' name='categoryId' placeholder='Selecione uma categoria' [filter]='true'>
+              </p-dropdown>
+           </div>
+           <div class='field col-12 md:col-3'>
+              <label htmlFor='supplier'>Fornecedor</label>
+              <input pInputText name='supplier' [(ngModel)]='product.supplier' type='text'/>
+           </div>
+        </div>
+        <p-divider>
+           <div class='inline-flex align-items-center'>
+              <b>Embalagem</b>
+           </div>
+        </p-divider>
+        <div class='p-fluid p-formgrid grid'>
+            <div class='field col-12 md:col-3'>
+              <label htmlFor='category'>Embalagem</label>
+              <p-dropdown [options]='sku' [(ngModel)]='product.sku' name='sku' placeholder='Selecione uma embalagem' [filter]='true' [group]='true'>
+                <ng-template let-group pTemplate='group'>
+                  <div class='flex align-items-center'>
+                      <span>{{group.label}}</span>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class='field col-12 md:col-3'>
+              <label htmlFor='weight'>Peso</label>
+              <p-inputNumber name='weight' [(ngModel)]='product.weight' mode='decimal' [minFractionDigits]='2' [maxFractionDigits]='5'></p-inputNumber>
+            </div>
+            <div class='field col-12 md:col-3'>
+              <label htmlFor='height'>Altura</label>
+              <p-inputNumber name='height' [(ngModel)]='product.height' mode='decimal' [minFractionDigits]='2' [maxFractionDigits]='5'></p-inputNumber>
+            </div>
+            <div class='field col-12 md:col-3'>
+              <label htmlFor='width'>Largura</label>
+              <p-inputNumber name='width' [(ngModel)]='product.width' mode='decimal' [minFractionDigits]='2' [maxFractionDigits]='5'></p-inputNumber>
+            </div>
+            <div class='field col-12 md:col-3'>
+              <label htmlFor='length'>Comprimento</label>
+              <p-inputNumber name='length' [(ngModel)]='product.length' mode='decimal' [minFractionDigits]='2' [maxFractionDigits]='5'></p-inputNumber>
+            </div>
+            <div class='field col-12 md:col-4'>
+              <label htmlFor='ean'>EAN</label>
+              <input pInputText name='ean' [(ngModel)]='product.ean' type='text' />
+           </div>
+        </div>
+        <p-divider></p-divider>
+        <div>
+          <p-toast></p-toast>
+          <p-button styleClass='p-button-success mr-2' label="Salvar" icon="pi pi-check-circle" [loading]="loading" (click)="save()"></p-button>
+          <p-button label="Cancelar" icon='pi pi-undo' (click)='cancel()'></p-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

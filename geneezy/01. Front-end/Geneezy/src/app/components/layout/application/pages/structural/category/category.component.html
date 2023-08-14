@@ -1,0 +1,104 @@
+<div class='grid'>
+    <div class='col-12'>
+       <div class='card px-5 py-5'>
+          <!-- <p-toast>
+            <ng-template let-message pTemplate="message">
+                <div class="text-left" style="display: flex; align-items: left;">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 1.8rem; margin-right: 10px;"></i>
+                    <h4>{{message.summary}}</h4>
+                    <p>{{message.detail}}</p>
+                </div>
+                <div class="grid"  style="display: flex; align-items: left;">
+                    <button type="button" pButton label="Visualizar" class="p-button-success p-button-sm" style="align-self: flex-start;"></button>
+                </div>
+            </ng-template>
+        </p-toast> -->
+        <p-toast>
+         <ng-template let-message pTemplate="message">
+             <div class="notification-container">
+                 <div class="notification-content">
+                     <i class="pi pi-exclamation-triangle"></i>
+                     <div class="notification-text">
+                         <h4>{{message.summary}}</h4>
+                         <p>{{message.detail}}</p>
+                     </div>
+                 </div>
+                 <div class="notification-actions">
+                     <button type="button" pButton label="Visualizar" class="p-button-success p-button-sm"></button>
+                 </div>
+             </div>
+         </ng-template>
+     </p-toast>
+     
+     <style>
+         .notification-container {
+             display: flex;
+             align-items: flex-start;
+             background-color: #f0f0f0;
+             border: 1px solid #ccc;
+             border-radius: 5px;
+             padding: 10px;
+             margin: 10px;
+             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+         }
+     
+         .notification-content {
+             display: flex;
+             align-items: center;
+         }
+     
+         .notification-content i {
+             font-size: 1.8rem;
+             margin-right: 10px;
+         }
+     
+         .notification-text {
+             display: flex;
+             flex-direction: column;
+         }
+     
+         .notification-actions {
+             display: flex;
+             flex-direction: column;
+             align-items: flex-end;
+         }
+     </style>
+     
+          <div class='title-manager'>
+             <h4 class='m-3'><i id='icon-pi' class='pi pi-id-card'></i>Gerenciardor de categoria</h4>
+          </div>
+          <p-treeTable #tt [value]="categoryTreeNode" [columns]="cols" [rows]='10' [rowsPerPageOptions]='[10,20,30]' [paginator]='true' [showCurrentPageReport]='true' currentPageReportTemplate={{currentPageFooterTable}} [scrollable]="true" [tableStyle]="{'min-width':'50rem'}" [rowHover]='true' dataKey='id'>
+            <ng-template pTemplate='caption'>
+               <div class='flex flex-column md:flex-row md:justify-content-between md:align-items-center'>
+                  <div class='my-1'>
+                     <button pButton pRipple label='Novo' icon='pi pi-plus' class='p-button-success mr-1' (click)='goToCategoryNew()'></button>
+                  </div>
+                  <span class='block mt-2 md:mt-0 p-input-icon-left'>
+                     <i class='pi pi-search'></i>
+                     <input pInputText type='text' (input)='onGlobalFilter(tt, $event)' placeholder='Pesquisar' id='input-search'/>
+                  </span>
+               </div>
+            </ng-template>
+           <ng-template pTemplate="header" let-columns>
+               <tr>
+                  <th style='width: 1rem'></th>
+                  <th *ngFor="let col of columns" [ttSortableColumn]="col.field">{{col.header}}<p-treeTableSortIcon [field]="col.field"></p-treeTableSortIcon></th>
+               </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData" >
+               <tr>
+                  <td><p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>{{rowData.name}}</td>
+                  <td style='width: 1rem'></td>
+                  <td></td>
+                  <td><p-tag [value]="rowData.isActive ? 'Ativo' : 'Inativo'" [severity]="getSeverity(rowData.isActive)"></p-tag></td>
+                  <td>
+                     <button pButton icon="pi pi-plus " class="p-button-success p-button-sm mr-1" (click)="goToSubCategoryNew(rowData)"></button>
+                     <button pButton icon="pi pi-pencil" class="p-button-help p-button-sm mr-1" (click)="goToCategoryEdit(rowData)"></button>
+                     <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm mr-1" (click)="deleteCategory(rowData)" ></button>
+                  </td>
+               </tr>
+           </ng-template> 
+          </p-treeTable>
+       </div>
+    </div>
+  </div>

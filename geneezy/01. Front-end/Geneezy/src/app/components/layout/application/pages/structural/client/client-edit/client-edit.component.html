@@ -1,0 +1,251 @@
+<div class='grid'>
+   <div class='col-12'>
+      <div class="card">
+         <div class='title-manager'>
+            <h4 class='m-3'><i id='icon-pi' class='pi pi-id-card'></i>Gerenciardor de clientes</h4>
+         </div>
+         <p-tabView>
+            <p-tabPanel>
+               <ng-template pTemplate="header">
+                  <i id='icon-pi' class="pi pi-user"></i>
+                  <span>Cliente</span>
+               </ng-template>
+               <form #formClient="ngForm">
+                  <p-divider>
+                     <div class='inline-flex align-items-center'>
+                        <b>Cadastral</b>
+                     </div>
+                  </p-divider>
+                  <div class='p-fluid p-formgrid grid'>
+                     <div class='field col-12 md:col-3'>
+                        <label htmlFor='name'>Nome </label>
+                        <input pInputText type='text' name='name' [(ngModel)]='client.name'/>
+                     </div>
+                     <div class='field col-12 md:col-3'>
+                        <label htmlFor='lastName'>Sobrenome</label>
+                        <input pInputText name='lastName' [(ngModel)]='client.lastName'/>
+                     </div>
+                     <div class='field col-12 md:col-2'>
+                        <label htmlFor='telephone'>Telefone</label>
+                        <p-inputMask mask="(99) 99999-9999" name='telephone' [showClear]='true' [(ngModel)]='client.telephone'></p-inputMask>
+                     </div>
+                     <div class='field col-12 md:col-2'>
+                        <label htmlFor='cpf'>CPF</label>
+                        <p-inputMask mask='999.999.999-99' type='text' [showClear]='true' name='cpf' [(ngModel)]='client.cpf'></p-inputMask>
+                     </div>
+                     <div class='field col-12 md:col-2'>
+                        <label htmlFor='isActive'>Status</label>
+                        <p-dropdown [options]='dropDownIsActive' name='isActive' [(ngModel)]='client.isActive'></p-dropdown>
+                     </div>
+                     <div class='field col-12 md:col-3'>
+                        <label htmlFor='dateOfBirth'>Data de nascimento</label>
+                        <p-calendar name='dateOfBirth' dateFormat='dd/mm/yy' [showClear]='true' [(ngModel)]='client.dateOfBirth'></p-calendar>
+                     </div>
+                     <div class='field col-12 md:col-2'>
+                        <label htmlFor='sex'>Sexo</label>
+                        <p-dropdown [options]='dropDownSex' name='sex' [(ngModel)]='client.sex'></p-dropdown>
+                     </div>
+                     <div class='field col-12 md:col-3'>
+                        <label htmlFor='mail'>Email</label>
+                        <input pInputText name='mail' [(ngModel)]='client.mail'/>
+                     </div>
+                     <div class='field col-12 md:col-1'>
+                        <label htmlFor='isBusiness'>Pessoa juridica</label>
+                        <p-dropdown [options]='dropDownIsBusiness' name='isBusiness' [(ngModel)]='client.isBusiness'></p-dropdown>
+                     </div>
+                     <div *ngIf='client.isBusiness' class='field col-12 md:col-3'>
+                        <label htmlFor='positionInTheCompany'>Cargo empresa</label>
+                        <p-dropdown [options]='position' [(ngModel)]='client.positionInTheCompany' name='positionInTheCompany' placeholder='Selecione um cargo' [filter]='true' [group]='true'>
+                           <ng-template let-group pTemplate='group'>
+                              <div class='flex align-items-center'>
+                                 <span>{{group.label}}</span>
+                              </div>
+                           </ng-template>
+                        </p-dropdown>
+                     </div>
+                  </div>
+                  <div *ngIf='!client.isBusiness'>
+                     <p-divider>
+                        <div class='inline-flex align-items-center'>
+                           <b>Endereço</b>
+                        </div>
+                     </p-divider>
+                     <div class='p-fluid p-formgrid grid'>
+                        <div class='field col-12 md:col-2'>
+                           <label htmlFor='country'>Pais</label>
+                           <input pInputText name='country' [(ngModel)]='client.country'/>
+                        </div>
+                        <div class='field col-12 md:col-2'>
+                           <label htmlFor='state'>Estado</label>
+                           <p-dropdown [options]='state' [(ngModel)]='client.state' name='state' placeholder='Selecione uma UF' [filter]='false' [group]='true' (onChange)='filterCitiesByState()'>
+                              <ng-template let-group pTemplate='group'>
+                                 <div class='flex align-items-center'>
+                                    <span>{{group.label}}</span>
+                                 </div>
+                              </ng-template>
+                           </p-dropdown>
+                        </div>
+                        <div class='field col-12 md:col-4'>
+                           <label htmlFor='city'>Cidade</label>
+                           <p-dropdown [options]='filteredCities' [(ngModel)]='client.city' name='city' placeholder='Selecione a cidade' [filter]='true' [group]='true'>
+                              <ng-template let-group pTemplate='group'>
+                                 <div class='flex align-items-center'>
+                                    <span>{{group.label}}</span>
+                                 </div>
+                              </ng-template>
+                           </p-dropdown>
+                        </div>
+                        <div class='field col-12 md:col-4'>
+                           <label htmlFor='neighborhood'>Bairro</label>
+                           <input pInputText name='neighborhood' [(ngModel)]='client.neighborhood'/>
+                        </div>
+                        <div class='field col-12 md:col-3'>
+                           <label htmlFor='street'>Logradouro</label>
+                           <input pInputText name='street' [(ngModel)]='client.street'/>
+                        </div>
+                        <div class='field col-12 md:col-1'>
+                           <label htmlFor='residentialNumber'>Número</label>
+                           <p-inputNumber name='residentialNumber' [(ngModel)]='client.residentialNumber' mode='decimal' [useGrouping]='false'></p-inputNumber>
+                        </div>
+                        <div class='field col-12 md:col-1'>
+                           <label htmlFor='cep'>CEP</label>
+                           <p-inputMask mask='99999-999' name='cep' [(ngModel)]='client.cep'></p-inputMask>
+                        </div>
+                        <div class='field col-12 md:col-2'>
+                           <label htmlFor='complementAddress'>Complemento</label>
+                           <input pInputText name='complementAddress' [(ngModel)]='client.complementAddress'/>
+                        </div>
+                        <div class='field col-12 md:col-3'>
+                           <label htmlFor='observation'>Observação</label>
+                           <input pInputText name='observation' [(ngModel)]='client.observation'/>
+                        </div>
+                     </div>
+                  </div>
+                  <p-divider></p-divider>
+                  <div>
+                     <p-toast></p-toast>
+                     <p-button styleClass='p-button-success mr-2' label="Salvar" icon="pi pi-check-circle" [loading]="loading" (click)="save()"></p-button>
+                     <p-button label="Cancelar" icon='pi pi-undo' (click)='cancel()'></p-button>
+                  </div>
+               </form>
+            </p-tabPanel>
+            <p-tabPanel [disabled]='!client.isBusiness'>
+               <ng-template pTemplate="header">
+                  <i id='icon-pi' class="pi pi-building"></i>
+                  <span>Empresa</span>
+               </ng-template>
+               <form #formClient="ngForm">
+                  <p-divider>
+                     <div class='inline-flex align-items-center'>
+                        <b>Cadastral</b>
+                     </div>
+                  </p-divider>
+                  <div class='p-fluid p-formgrid grid'>
+                     <div class='field col-12 md:col-3'>
+                        <label htmlFor='customer.companyName'>Nome Fantasia</label>
+                        <input pInputText type='text' name='customer.companyName' [(ngModel)]='customer.companyName'>
+                     </div>
+                     <div class='field col-12 md:col-3'>
+                        <label htmlFor='customer.corporateSocialName'>Razão Social</label>
+                        <input pInputText name='customer.corporateSocialName' [(ngModel)]='customer.corporateSocialName'/>
+                     </div>
+                     <div class='field col-12 md:col-2'>
+                        <label htmlFor='customer.telephone'>Telefone</label>
+                        <p-inputMask mask="(99) 99999-9999" name='customer.telephone' [showClear]='true' [(ngModel)]='customer.telephone'></p-inputMask>
+                     </div>
+                     <div class='field col-12 md:col-2'>
+                        <label htmlFor='customer.cnpj'>CNPJ</label>
+                        <p-inputMask mask='99.999.999/9999-99' type='text' [showClear]='true' name='customer.cnpj' [(ngModel)]='customer.cnpj'></p-inputMask>
+                     </div>
+                     <div class='field col-12 md:col-2'>
+                        <label htmlFor='customer.isActive'>Status</label>
+                        <p-dropdown [options]='dropDownIsActive' name='customer.isActive' [(ngModel)]='customer.isActive'></p-dropdown>
+                     </div>
+                     <div class='field col-12 md:col-3'>
+                        <label htmlFor='customer.dateOfFoundation'>Data de fundação</label>
+                        <p-calendar name='customer.dateOfFoundation' dateFormat='dd/mm/yy' [showClear]='true' [(ngModel)]='customer.dateOfFoundation'></p-calendar>
+                     </div>
+                     <div class='field col-12 md:col-3'>
+                        <label htmlFor='customer.mail'>Email</label>
+                        <input pInputText name='customer.mail' [(ngModel)]='customer.mail'/>
+                     </div>
+                     <div *ngIf='client.isBusiness' class='field col-12 md:col-3'>
+                        <label htmlFor='customer.businessSegment'>Segmento de negócio</label>
+                        <p-dropdown [options]='positionBusinessSegment' [(ngModel)]='customer.businessSegment' name='customer.businessSegment' placeholder='Selecione um segmento' [filter]='true' [group]='true'>
+                           <ng-template let-group pTemplate='group'>
+                              <div class='flex align-items-center'>
+                                 <span>{{group.label}}</span>
+                              </div>
+                           </ng-template>
+                        </p-dropdown>
+                     </div>
+                  </div>
+                  <div *ngIf='client.isBusiness'>
+                     <p-divider>
+                        <div class='inline-flex align-items-center'>
+                           <b>Endereço</b>
+                        </div>
+                     </p-divider>
+                     <div class='p-fluid p-formgrid grid'>
+                        <div class='field col-12 md:col-2'>
+                           <label htmlFor='customer.country'>Pais</label>
+                           <input pInputText name='customer.country' [(ngModel)]='customer.country'/>
+                        </div>
+                        <div class='field col-12 md:col-2'>
+                           <label htmlFor='state'>Estado</label>
+                           <p-dropdown [options]='state' [(ngModel)]='customer.state' name='customer.state' placeholder='Selecione uma UF' [filter]='false' [group]='true' (onChange)='filterCitiesByState()'>
+                              <ng-template let-group pTemplate='group'>
+                                 <div class='flex align-items-center'>
+                                    <span>{{group.label}}</span>
+                                 </div>
+                              </ng-template>
+                           </p-dropdown>
+                        </div>
+                        <div class='field col-12 md:col-4'>
+                           <label htmlFor='customer.city'>Cidade</label>
+                           <p-dropdown [options]='filteredCities' [(ngModel)]='customer.city' name='city' placeholder='Selecione a cidade' [filter]='true' [group]='true'>
+                              <ng-template let-group pTemplate='group'>
+                                 <div class='flex align-items-center'>
+                                    <span>{{group.label}}</span>
+                                 </div>
+                              </ng-template>
+                           </p-dropdown>
+                        </div>
+                        <div class='field col-12 md:col-4'>
+                           <label htmlFor='customer.neighborhood'>Bairro</label>
+                           <input pInputText name='customer.neighborhood' [(ngModel)]='customer.neighborhood'/>
+                        </div>
+                        <div class='field col-12 md:col-3'>
+                           <label htmlFor='customer.street'>Logradouro</label>
+                           <input pInputText name='scustomer.treet' [(ngModel)]='customer.street'/>
+                        </div>
+                        <div class='field col-12 md:col-1'>
+                           <label htmlFor='customer.residentialNumber'>Número</label>
+                           <p-inputNumber name='customer.residentialNumber' [(ngModel)]='customer.residentialNumber' mode='decimal' [useGrouping]='false'></p-inputNumber>
+                        </div>
+                        <div class='field col-12 md:col-1'>
+                           <label htmlFor='customer.cep'>CEP</label>
+                           <p-inputMask mask='99999-999' name='customer.cep' [(ngModel)]='customer.cep'></p-inputMask>
+                        </div>
+                        <div class='field col-12 md:col-2'>
+                           <label htmlFor='customer.complementAddress'>Complemento</label>
+                           <input pInputText name='customer.complementAddress' [(ngModel)]='customer.complementAddress'/>
+                        </div>
+                        <div class='field col-12 md:col-3'>
+                           <label htmlFor='customer.observation'>Observação</label>
+                           <input pInputText name='customer.observation' [(ngModel)]='customer.observation'/>
+                        </div>
+                     </div>
+                  </div>
+                  <p-divider></p-divider>
+                  <div>
+                     <p-toast></p-toast>
+                     <p-button styleClass='p-button-success mr-2' label="Salvar" icon="pi pi-check-circle" [loading]="loading" (click)="save()"></p-button>
+                     <p-button label="Cancelar" icon='pi pi-undo' (click)='cancel()'></p-button>
+                  </div>
+               </form>
+            </p-tabPanel>
+         </p-tabView>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,78 @@
+/* You can add global styles to this file, and also import other style files */
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+/* Demos */
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+@import "assets/demo/styles/code.scss";
+
+// theme
+@import "assets/layout/styles/theme/lara-light-purple/theme.css";
+//@import "assets/layout/styles/theme/lara-dark-purple/theme.css";
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(147, 147, 147); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(147, 147, 147); ; 
+}
+
+.title-manager {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-width: 1px 0 1px 0;
+  border: 1px solid #dee2e6;
+  color: #343a40;
+  padding: 1.5rem;
+  margin-bottom: 15px;
+}
+
+h4{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #6c757d;
+  // font-weight: 780;
+  font-size:large;
+}
+
+#icon-pi{
+  margin-right: 0.4em;
+  font-size: 1.0em;
+}
+
+#input-search{
+  width: 350px
+}
+
+#Geneezy{
+    color:#8D4DFF;
+    font-weight: 780;
+    font-size: small;
+}
+
+#copy {
+  font-size: 0.9em;
+  color:#8D4DFF;
+}

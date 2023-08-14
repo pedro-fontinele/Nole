@@ -1,0 +1,86 @@
+<p-table *ngIf='!showForm' #dt [value]='person' [columns]='cols' [rows]='10' [globalFilterFields]='globalFilterFieldsColuns' [paginator]='true' [rowsPerPageOptions]='[10,20,30]' [showCurrentPageReport]='true' currentPageReportTemplate={{currentPageFooterTable}} [(selection)]='personSelected' selectionMode='multiple' [rowHover]='true' dataKey='id'>
+    <ng-template pTemplate='caption'>
+        <div class='flex flex-column md:flex-row md:justify-content-between md:align-items-center'>
+            <div class='my-1'>
+                <button pButton pRipple label='Novo' icon='pi pi-plus' class='p-button-success mr-1' (click)='goToPersonNew()' [disabled]='disableNewButton()'></button>
+                <button pButton pRipple label='Editar' icon='pi pi-file-edit' class='p-button-help mr-1' (click)='goToPersonEdit()' [disabled]='disableEditOrDeleteButton()'></button>
+                <button pButton pRipple label='Excluir' icon='pi pi-trash' class='p-button-danger mr-1' (click)='deletePersonSelected()' [disabled]='disableEditOrDeleteButton()'></button>
+            </div>
+            <span class='block mt-2 md:mt-0 p-input-icon-left'>
+                <i class='pi pi-search'></i>
+                <input pInputText type='text' (input)='onGlobalFilter(dt, $event)' placeholder='Pesquisar' id='input-search'/>
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate='header'>
+        <tr>
+            <th style='width: 1rem'></th>
+            <th pSortableColumn='id'>ID<p-sortIcon field='id'></p-sortIcon></th>
+            <th pSortableColumn='name'>Nome<p-sortIcon field='name'></p-sortIcon></th>
+            <th pSortableColumn='lastName'>Sobrenome<p-sortIcon field='lastName'></p-sortIcon></th>
+            <th pSortableColumn='telephone'>Telefone<p-sortIcon field='telephone'></p-sortIcon></th>
+            <th pSortableColumn='cpf'>CPF<p-sortIcon field='cpf'></p-sortIcon></th>
+            <th pSortableColumn='mail'>Email<p-sortIcon field='mail'></p-sortIcon></th>
+            <th pSortableColumn='isActive'>Status<p-sortIcon field='isActive'></p-sortIcon></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate='body' let-person>
+        <tr>
+            <td><p-tableCheckbox [value]='person'></p-tableCheckbox></td>
+            <td>{{person.id}}</td>
+            <td>{{person.name}}</td>
+            <td>{{person.lastName}}</td>
+            <td>{{person.telephone}}</td>
+            <td>{{person.cpf}}</td>
+            <td>{{person.mail}}</td>
+            <td><p-tag [value]="person.isActive ? 'Ativo' : 'Inativo'" [severity]="getSeverity(person.isActive)"></p-tag></td>
+        </tr>
+    </ng-template>
+</p-table>
+<form #formPerson="ngForm" *ngIf='showForm'>
+    <p-divider>
+       <div class='inline-flex align-items-center'>
+          <b>Cadastral</b>
+       </div>
+    </p-divider>
+    <div class='p-fluid p-formgrid grid'>
+       <div class='field col-12 md:col-3'>
+          <label htmlFor='name'>Nome</label>
+          <input pInputText type='text' name='name' [(ngModel)]='personForm.name'/>
+       </div>
+       <div class='field col-12 md:col-3'>
+          <label htmlFor='lastName'>Sobrenome</label>
+          <input pInputText name='lastName' [(ngModel)]='personForm.lastName'/>
+       </div>
+       <div class='field col-12 md:col-2'>
+          <label htmlFor='telephone'>Telefone</label>
+          <p-inputMask mask="(99) 99999-9999" name='telephone' [showClear]='true' [(ngModel)]='personForm.telephone'></p-inputMask>
+       </div>
+       <div class='field col-12 md:col-2'>
+          <label htmlFor='cpf'>CPF</label>
+          <p-inputMask mask='999.999.999-99' type='text' [showClear]='true' name='cpf' [(ngModel)]='personForm.cpf'></p-inputMask>
+       </div>
+       <div class='field col-12 md:col-2'>
+          <label htmlFor='isActive'>Status</label>
+          <p-dropdown [options]='dropDownIsActive' name='isActive' [(ngModel)]='personForm.isActive'></p-dropdown>
+       </div>
+       <div class='field col-12 md:col-3'>
+          <label htmlFor='dateOfBirth'>Data de nascimento</label>
+          <p-calendar name='dateOfBirth' dateFormat='dd/mm/yy' [showClear]='true' [(ngModel)]='personForm.dateOfBirth'></p-calendar>
+       </div>
+       <div class='field col-12 md:col-2'>
+          <label htmlFor='sex'>Sexo</label>
+          <p-dropdown [options]='dropDownSex' name='sex' [(ngModel)]='personForm.sex'></p-dropdown>
+       </div>
+       <div class='field col-12 md:col-3'>
+          <label htmlFor='mail'>Email</label>
+          <input pInputText name='mail' [(ngModel)]='personForm.mail'/>
+       </div>
+    </div>
+    <p-divider></p-divider>
+    <div>
+       <p-toast></p-toast>
+       <p-button styleClass='p-button-success mr-2' label="Salvar" icon="pi pi-check-circle" [loading]="loading" (click)="save()"></p-button>
+       <p-button label="Cancelar" icon='pi pi-undo' (click)='cancel()'></p-button>
+    </div>
+ </form>

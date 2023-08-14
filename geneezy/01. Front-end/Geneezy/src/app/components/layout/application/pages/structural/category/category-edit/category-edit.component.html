@@ -1,0 +1,40 @@
+<div class='grid'>
+   <div class='col-12'>
+      <div class='card'>
+         <form #formCategory="ngForm">
+            <div class='title-manager'>
+               <h4 class='m-3'><i id='icon-pi' class='pi pi-box'></i>Cadastro de categoria</h4>
+            </div>
+            <p-divider>
+               <div class='inline-flex align-items-center'>
+                  <b>Cadastral</b>
+               </div>
+            </p-divider>
+            <div class='p-fluid p-formgrid grid'>
+               <div class='field col-12 md:col-2'>
+                  <label htmlFor='isMainCategory'>Estrutura</label>
+                  <p-dropdown [disabled]="true" [options]='categoryStructure' [(ngModel)]='isMainCategory' name='isMainCategory' placeholder='Tipo de categoria'></p-dropdown>
+               </div>
+               <div class='field col-12 md:col-3' *ngIf="!isMainCategory">
+                  <label htmlFor='parentCategoryName'>Categoria Pai</label>
+                  <input [disabled]="true" pInputText type='text' name='parentCategoryName' [(ngModel)]='parentCategoryName'/>
+               </div>
+               <div class='field col-12 md:col-4'>
+                  <label htmlFor='name'>Nome</label>
+                  <input pInputText type='text' name='name' [(ngModel)]='category.name'/>
+               </div>
+               <div class='field col-12 md:col-3'>
+                  <label htmlFor='isActive'>Status</label>
+                  <p-dropdown [options]='dropdownItems' name='isActive' [(ngModel)]='category.isActive'></p-dropdown>
+               </div>
+            </div>
+            <p-divider></p-divider>
+            <div>
+               <p-toast></p-toast>
+               <p-button styleClass='p-button-success mr-2' label="Salvar" icon="pi pi-check-circle" [loading]="loading" (click)="save()"></p-button>
+               <p-button label="Cancelar" icon='pi pi-undo' (click)='cancel()'></p-button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
